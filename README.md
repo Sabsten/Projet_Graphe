@@ -16,15 +16,25 @@ Etant libre de présenter toute piste de solution permettant de solutionner les 
 
 Obligatoires : 
 1/ Retour du camion au point de départ 
+
 2/ Durée totale du trajet optimisée
+
 3/ Prise en compte du traffic selon la plage horaire
+
 Facultatives/Suggestions CESI : 
+
 4/ Impossibilité de livrer certains colis sur certaines plages horaires (possibilité d'attendre sur place en attendant la bonne heure)
+
 5/ Plusieurs camions disponibles en simultané 
+
   --> Affection des objets aux différents camions dispos 
+  
   --> Minimiser la date de retour du dernier camion (et non le temps de trajet total)
+  
   --> Capacité des camions (2 ou 3 dimensions, JE SAIS PAS CE QUE CA VEUT DIRE) et encombrement des camions 
+  
   --> Certains objets ne peuvent pas être transités dans tous les camions 
+  
 6/ Chaque objet a un point de collecte spécifique
 
 # Collaborateurs
