@@ -15,6 +15,7 @@ Etant libre de présenter toute piste de solution permettant de solutionner les 
 # Contraintes
 
 Obligatoires : 
+
 1/ Retour du camion au point de départ 
 
 2/ Durée totale du trajet optimisée
