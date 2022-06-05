@@ -3,6 +3,7 @@ import os.path
 from random import *
 import folium
 import matplotlib.pyplot as plt
+import webbrowser
 
 class localisation:
     def __init__(self):
@@ -48,10 +49,16 @@ def CalculDistanceHaversine(PointDepart, PointArrive):
 
 
 def GenererMatrice(PointTravail):
-    Matrice = []
-    for each_item in PointTravail:
-        Matrice.append(CalculDistanceHaversine(PointTravail, each_item))
-    return Matrice
+    "Génère la matrice des distances"
+    MatriceDistances = []
+    MatriceLocalisation = []
+    for i in range(len(PointTravail)):
+        MatriceDistances.append([])
+        MatriceLocalisation.append([])
+        for j in range(len(PointTravail)):
+            MatriceDistances[i].append(CalculDistanceHaversine(PointTravail[i], PointTravail[j]))
+            MatriceLocalisation[i].append(PointTravail[j].Ville)
+    return MatriceDistances, MatriceLocalisation
 
 
 def Mapping(PointsTravail, nombre_livraison):
@@ -88,6 +95,7 @@ def PositionnerPointSurUneCarte(nombre_livraison):
         i=i+1
     folium.PolyLine([(float(each_item.Latitude), float(each_item.Longitude)) for each_item in PointLivraison], color='red', weight=1).add_to(Carte)
     Carte.save(os.path.abspath(os.path.dirname(__file__))+ '\Map.html')
+    webbrowser.open('file://' + os.path.realpath('Map.html'))
     return Carte
 
 nombre_livraison = 8
