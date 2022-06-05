@@ -1,5 +1,8 @@
 import math as math
+import os.path
 from random import *
+import folium
+import matplotlib.pyplot as plt
 
 class localisation:
     def __init__(self):
@@ -10,11 +13,13 @@ class localisation:
         self.code_departement = ""
         self.nom_depart = ""
         self.region = ""
+        self.numero = 0
 
 
 def readfile(n_departemnt):
     "Lis le fichier LocalisationData.csv et retourne une liste d'objets de localisation"
-    with open('C:\\Users\\sebcz\Desktop\Projet_Graphe\LocalisationData.csv', 'r') as LocalisationData:
+    CheminData = os.path.abspath(os.path.dirname(__file__)) + '\LocalisationData.csv'
+    with open(CheminData, 'r') as LocalisationData:
         Localisation = []
         for line in LocalisationData:
             InfoLine = line.split(';')
@@ -42,43 +47,48 @@ def CalculDistanceHaversine(PointDepart, PointArrive):
     return R * c
 
 
-def Main():
-    DepartementTravail = randint(1,93)
-    nombre_vehicule = 1
-    nombre_livraison = 4
-    print("Le departement de travail est le departement numero: ", DepartementTravail)
-    PointsTravail = readfile(DepartementTravail)
-    PointLivraison = Mapping(PointsTravail, nombre_livraison)
-    Matrice = MatriceDistances(PointLivraison)
-    Cycle = TrouverCycleVehiculeRoutingProblem(Matrice)
-    print("Le cycle de plus petite distance est: ")
-    print(Cycle)
+def GenererMatrice(PointTravail):
+    Matrice = []
+    for each_item in PointTravail:
+        Matrice.append(CalculDistanceHaversine(PointTravail, each_item))
+    return Matrice
 
-def MatriceDistances(PointTravail):
-    "Cree une matrice de distances entre les points de travail"
-    MatriceDistances = []
-    for depart in range(len(PointTravail)):
-        MatriceDistances.append([])
-        for arrive in range(len(PointTravail)):
-            MatriceDistances[depart].append(round(CalculDistanceHaversine(PointTravail[depart], PointTravail[arrive])/1000))
-    return MatriceDistances
 
 def Mapping(PointsTravail, nombre_livraison):
-    "Cree une liste de points de livraison"
-    PointLivraison = []
-    for i in range(nombre_livraison):
-        PointLivraison.append(PointsTravail[randint(0, len(PointsTravail)-1)])
-    return PointLivraison
+    return [PointsTravail[randint(0, len(PointsTravail) - 1)] for _ in range(nombre_livraison)]
 
+def TrouverLeCycleLePlusCourt(Matrice):
+    distance_min = 10000000000
+    cycle_min = []
+    for line in range(len(Matrice)):
+        if sum(Matrice[line]) < distance_min:
+            distance_min = sum(Matrice[line])
+            cycle_min = line
+    return distance_min, cycle_min
 
-def TrouverCycleVehiculeRoutingProblem(MatriceDistances):
-    "Cree un cycle de plus petite distance pour un vehicule routing problem"
-    Cycle = []
-    for depart in range(len(MatriceDistances)):
-        Cycle.append(depart)
-        for arrive in range(len(MatriceDistances)):
-            if arrive != depart and MatriceDistances[depart][arrive] < MatriceDistances[depart][Cycle[0]]:
-                Cycle[0] = arrive
-    return Cycle
-    
-Main()
+def PositionnerPointSurUneCarte(nombre_livraison):
+    "Positionne les points sur une carte"
+    DepartementTravail = randint(1,93)
+    print(f"Departement de travail : {str(DepartementTravail)}")
+    PointsTravail = readfile(DepartementTravail)
+    MateriauxSpecial = randint(1, len(PointsTravail)-1)
+    PointLivraison = Mapping(PointsTravail, nombre_livraison)
+    print(f"Point de départ : {PointLivraison[0].Ville}")
+    MatriceDistances, MatriceLocalisation = GenererMatrice(PointLivraison)
+    print(MatriceLocalisation)
+    print(MatriceDistances)
+    _, Cycle = TrouverLeCycleLePlusCourt(MatriceDistances)
+    print("### ###")
+    print("Le cycle de plus petite distance est: ")
+    print(MatriceLocalisation[Cycle])
+    Carte = folium.Map(location=[PointLivraison[0].Latitude, PointLivraison[0].Longitude], zoom_start=10)
+    i=1
+    for each_item in PointLivraison:
+        folium.Marker(location=[each_item.Latitude, each_item.Longitude], popup=f"{each_item.Ville}({str(i)})", icon=folium.Icon(color='green')).add_to(Carte)
+        i=i+1
+    folium.PolyLine([(float(each_item.Latitude), float(each_item.Longitude)) for each_item in PointLivraison], color='red', weight=1).add_to(Carte)
+    Carte.save(os.path.abspath(os.path.dirname(__file__))+ '\Map.html')
+    return Carte
+
+nombre_livraison = 8
+PositionnerPointSurUneCarte(nombre_livraison)
