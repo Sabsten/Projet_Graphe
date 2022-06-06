@@ -75,6 +75,7 @@ def Mapping(PointsTravail, nombre_livraison):
 def TrouverLeCycleLePlusCourt(PointLivraison, MatriceDistance,MatriceLocalisation,point_depart):
     ListeParcours = []
     ListeDistances = []
+    ListeSauvegarde = []
     distancemax = 10000000000
     intersection = point_depart
     cycle,j  = 0,0
@@ -84,20 +85,18 @@ def TrouverLeCycleLePlusCourt(PointLivraison, MatriceDistance,MatriceLocalisatio
         if MatriceDistance[0] == []:
             return ListeParcours,ListeDistances
         if MatriceLocalisation[cycle][0].split('->')[0] == intersection:
+            ListeSauvegarde.append(intersection)
             PointLivraison[cycle].ordre = ordre
             while j != len(MatriceDistance) - trajetsupprime:
-                if MatriceDistance[cycle][j] < distancemax and MatriceDistance[cycle][j] != 0:
+                if MatriceDistance[cycle][j] < distancemax and MatriceDistance[cycle][j] != 0 and MatriceLocalisation[cycle][j] not in ListeSauvegarde:
                     distancemax = MatriceDistance[cycle][j]
                     trajet = MatriceLocalisation[cycle][j]
                     indice = j
                 j += 1
             ListeParcours.append(trajet)
             ListeDistances.append(distancemax)
-            for cycle in range(len(MatriceDistance)):
-                MatriceDistance[cycle].pop(indice)
-                MatriceDistance[cycle].remove
-                MatriceLocalisation[cycle].pop(indice)
-                MatriceLocalisation[cycle].remove
+            MatriceLocalisation[cycle].remove
+            MatriceDistance[cycle].remove
             intersection = trajet.split('->')[1]
             distancemax = 10000000000
             trajetsupprime = trajetsupprime +1
@@ -130,6 +129,7 @@ def PositionnerPointSurUneCarte(nombre_livraison):
     PointLivraison = Mapping(PointsTravail, nombre_livraison)
     print(f"Point de départ : {PointLivraison[0].Ville}")
     MatriceDistances, MatriceLocalisation = GenererMatrice(PointLivraison)
+    print(MatriceLocalisation)
     Cycle, ListeDistances = TrouverLeCycleLePlusCourt(PointLivraison, MatriceDistances,MatriceLocalisation, MatriceLocalisation[0][0].split('->')[0])
     print("### ###")
     print("Le cycle de plus petite distance est: ")
