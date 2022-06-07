@@ -74,17 +74,14 @@ def Mapping(PointsTravail, nombre_livraison):
         Points.remove(Points[index])
     return PointsLivraison
 
-        
 
-def genererCarte(PointLivraison):
+def genererCarte(ordre, PointLivraison):
     "Génère une carte"
     Carte = folium.Map(location=[PointLivraison[0].Latitude, PointLivraison[0].Longitude], zoom_start=10)
     i=1
-    PointLivraison.sort(key=lambda x: x.ordre)
     for each_item in PointLivraison:
-        folium.Marker(location=[each_item.Latitude, each_item.Longitude], popup=f"{each_item.Ville}({str(each_item.ordre)})", icon=folium.Icon(color='green')).add_to(Carte)
+        folium.Marker(location=[each_item.Latitude, each_item.Longitude], popup=f"{each_item.Ville}({str(ordre[i])})", icon=folium.Icon(color='green')).add_to(Carte)
         i=i+1
-
     folium.PolyLine([(float(each_item.Latitude), float(each_item.Longitude)) for each_item in PointLivraison], color='red', weight=1).add_to(Carte)
     Carte.save(os.path.abspath(os.path.dirname(__file__))+ '\Map.html')
     webbrowser.open('file://' + os.path.realpath('Map.html'))
@@ -108,6 +105,7 @@ def print_solution(data, manager, routing, solution):
         print(plan_output)
         max_route_distance = max(route_distance, max_route_distance)
     print('Maximum of the route distances: {}m'.format(max_route_distance))
+    return plan_output
 
 def main():
     DepartementTravail = randint(1,93)
@@ -124,7 +122,6 @@ def main():
 
     # Create Routing Model.
     routing = pywrapcp.RoutingModel(manager)
-
 
     # Create and register a transit callback.
     def distance_callback(from_index, to_index):
@@ -165,7 +162,7 @@ def main():
         print('No solution found !')
 
     #GenerateMap
-    genererCarte(print_solution(MatriceDistances, manager, routing, solution).split(" -> "))
+    genererCarte(str(print_solution(MatriceDistances, manager, routing, solution)).split(" -> "),PointLivraison)
 
 
 main()
