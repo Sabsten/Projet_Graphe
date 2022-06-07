@@ -14,29 +14,19 @@ Etant libre de présenter toute piste de solution permettant de solutionner les 
 
 # Contraintes
 
-Obligatoires : 
+Notre solution devra répondre à un ensemble de problématiques relatives à la génération et l’optimisation d’une tournée de livraison sur un réseau routier composé d’un ensemble de villes à parcourir. L’objectif sera d’obtenir des tournées de durée optimale, permettant aux livreurs de revenir à leur point de départ et terminer leur journée le plus tôt possible et ne pas déborder de leurs horaires de travail. 
 
-1/ Retour du camion au point de départ 
+Notre algorithme devra prendre plusieurs facteurs en compte. Le premier facteur que nous intégrerons dans notre algorithme sera la connaissance du trafic habituel sur les axes routiers reliant les villes concernées par la livraison. Ce dernier devra être pris en compte dans le calcul du trajet,  afin par exemple d’éviter un axe de courte distance mais étant très régulièrement saturé.  
 
-2/ Durée totale du trajet optimisée
+De plus, afin de maximiser les chances que notre projet soit retenu par l’ADEME, nous avons décidé d’implémenter deux contraintes supplémentaires afin de valoriser notre savoir-faire. D’une part, nous gérerons également l’affluence des routes en direct : le trajet le plus court sera recalculé à chaque passage dans une ville, en prenant en compte le trafic actuellement présent sur les axes de circulation. Enfin, afin de rendre notre travail plus professionnel et adapté à des problématiques réalistes, nous avons prévu de gérer plusieurs véhicules de livraison en simultané. Cette possibilité engendre plusieurs fonctionnalités à mettre en place : l’affectation des colis/objets aux différents camions (certains camions ne peuvent pas transporter certaines marchandises), la gestion de la capacité maximale de stockage des camion, et cette possibilité engendre également une modification majeure dans le fonctionnement de l’optimisation de la tournée : là où nous aurions uniquement souhaité obtenir la tournée dont la durée de réalisation et la plus courte, nous chercherons désormais la tournée permettant le retour le moins tardif pour le dernier camion à rentrer au dépôt (le dépôt est le point de départ et de fin de la tournée).
 
-3/ Prise en compte du traffic selon la plage horaire
+En termes mathématiques, nos recherches répondront au problème du « VRP », ou « Vehicule Routing Problem » (problème des tournées de véhicules). Il s’agit d’une classe de problèmes de recherche opérationnelle et d’optimisation combinatoire. Il a pour objectif de déterminer les tournées d’une flotte de véhicules afin de livrer une liste de clients, ou bien réaliser des tournées d’intervention (maintenances, réparations, contrôles…). Le but final étant de minimiser le coût de livraison des biens. 
 
-Facultatives/Suggestions CESI : 
+Ainsi, le problème suivant :
+ 
+Sera résolu à partir d’un graphe similaire :
+ 
 
-4/ Impossibilité de livrer certains colis sur certaines plages horaires (possibilité d'attendre sur place en attendant la bonne heure)
-
-5/ Plusieurs camions disponibles en simultané 
-
-  --> Affection des objets aux différents camions dispos 
-  
-  --> Minimiser la date de retour du dernier camion (et non le temps de trajet total)
-  
-  --> Capacité des camions (2 ou 3 dimensions, JE SAIS PAS CE QUE CA VEUT DIRE) et encombrement des camions 
-  
-  --> Certains objets ne peuvent pas être transités dans tous les camions 
-  
-6/ Chaque objet a un point de collecte spécifique
 
 # Collaborateurs
 
