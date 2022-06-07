@@ -2,6 +2,8 @@ import math as math
 import os.path
 from random import *
 import folium
+from ortools.constraint_solver import routing_enums_pb2
+from ortools.constraint_solver import pywrapcp
 import matplotlib.pyplot as plt
 import webbrowser
 
@@ -72,39 +74,6 @@ def Mapping(PointsTravail, nombre_livraison):
         Points.remove(Points[index])
     return PointsLivraison
 
-def TrouverLeCycleLePlusCourt(PointLivraison, MatriceDistance,MatriceLocalisation,point_depart):
-    ListeParcours = []
-    ListeDistances = []
-    ListeSauvegarde = []
-    distancemax = 10000000000
-    intersection = point_depart
-    cycle,j  = 0,0
-    ordre = 1
-    trajetsupprime = 0
-    while len(MatriceDistance) != 0:
-        if MatriceDistance[0] == []:
-            return ListeParcours,ListeDistances
-        if MatriceLocalisation[cycle][0].split('->')[0] == intersection:
-            ListeSauvegarde.append(intersection)
-            PointLivraison[cycle].ordre = ordre
-            while j != len(MatriceDistance) - trajetsupprime:
-                if MatriceDistance[cycle][j] < distancemax and MatriceDistance[cycle][j] != 0 and MatriceLocalisation[cycle][j] not in ListeSauvegarde:
-                    distancemax = MatriceDistance[cycle][j]
-                    trajet = MatriceLocalisation[cycle][j]
-                    indice = j
-                j += 1
-            ListeParcours.append(trajet)
-            ListeDistances.append(distancemax)
-            MatriceLocalisation[cycle].remove
-            MatriceDistance[cycle].remove
-            intersection = trajet.split('->')[1]
-            distancemax = 10000000000
-            trajetsupprime = trajetsupprime +1
-            ordre = ordre + 1
-            cycle = 0
-            j=0
-        else:
-            cycle = cycle + 1
         
 
 def genererCarte(PointLivraison):
@@ -120,21 +89,83 @@ def genererCarte(PointLivraison):
     Carte.save(os.path.abspath(os.path.dirname(__file__))+ '\Map.html')
     webbrowser.open('file://' + os.path.realpath('Map.html'))
 
-def PositionnerPointSurUneCarte(nombre_livraison):
-    "Positionne les points sur une carte"
+def print_solution(data, manager, routing, solution):
+    """Prints solution on console."""
+    print(f'Objective: {solution.ObjectiveValue()}')
+    max_route_distance = 0
+    for vehicle_id in range(1):
+        index = routing.Start(vehicle_id)
+        plan_output = 'Route for vehicle {}:\n'.format(vehicle_id)
+        route_distance = 0
+        while not routing.IsEnd(index):
+            plan_output += ' {} -> '.format(manager.IndexToNode(index))
+            previous_index = index
+            index = solution.Value(routing.NextVar(index))
+            route_distance += routing.GetArcCostForVehicle(
+                previous_index, index, vehicle_id)
+        plan_output += '{}\n'.format(manager.IndexToNode(index))
+        plan_output += 'Distance of the route: {}m\n'.format(route_distance)
+        print(plan_output)
+        max_route_distance = max(route_distance, max_route_distance)
+    print('Maximum of the route distances: {}m'.format(max_route_distance))
+
+def main():
     DepartementTravail = randint(1,93)
+    nombre_livraison = 8
     print(f"Departement de travail : {str(DepartementTravail)}")
     PointsTravail = readfile(DepartementTravail)
     MateriauxSpecial = randint(1, len(PointsTravail)-1)
     PointLivraison = Mapping(PointsTravail, nombre_livraison)
+    numvehicule = 1
     print(f"Point de départ : {PointLivraison[0].Ville}")
     MatriceDistances, MatriceLocalisation = GenererMatrice(PointLivraison)
-    print(MatriceLocalisation)
-    Cycle, ListeDistances = TrouverLeCycleLePlusCourt(PointLivraison, MatriceDistances,MatriceLocalisation, MatriceLocalisation[0][0].split('->')[0])
-    print("### ###")
-    print("Le cycle de plus petite distance est: ")
-    print(Cycle)
-    genererCarte(PointLivraison)
+    # Create the routing index manager.
+    manager = pywrapcp.RoutingIndexManager(len(MatriceDistances),numvehicule, 0)
 
-nombre_livraison = 8
-PositionnerPointSurUneCarte(nombre_livraison)
+    # Create Routing Model.
+    routing = pywrapcp.RoutingModel(manager)
+
+
+    # Create and register a transit callback.
+    def distance_callback(from_index, to_index):
+        """Returns the distance between the two nodes."""
+        # Convert from routing variable Index to distance matrix NodeIndex.
+        from_node = manager.IndexToNode(from_index)
+        to_node = manager.IndexToNode(to_index)
+        return MatriceDistances[from_node][to_node]
+
+    transit_callback_index = routing.RegisterTransitCallback(distance_callback)
+
+    # Define cost of each arc.
+    routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index)
+
+    # Add Distance constraint.
+    dimension_name = 'Distance'
+    routing.AddDimension(
+        transit_callback_index,
+        0,  # no slack
+        3000000,  # vehicle maximum travel distance
+        True,  # start cumul to zero
+        dimension_name)
+    distance_dimension = routing.GetDimensionOrDie(dimension_name)
+    distance_dimension.SetGlobalSpanCostCoefficient(100)
+
+    # Setting first solution heuristic.
+    search_parameters = pywrapcp.DefaultRoutingSearchParameters()
+    search_parameters.first_solution_strategy = (
+        routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
+
+    # Solve the problem.
+    solution = routing.SolveWithParameters(search_parameters)
+
+    # Print solution on console.
+    if solution:
+        print_solution(MatriceDistances, manager, routing, solution)
+    else:
+        print('No solution found !')
+
+    #GenerateMap
+    genererCarte(print_solution(MatriceDistances, manager, routing, solution).split(" -> "))
+
+
+main()
