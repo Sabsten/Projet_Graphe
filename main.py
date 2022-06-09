@@ -78,6 +78,7 @@ def Mapping(PointsTravail, nombre_livraison):
 
 def genererCarte(ordrepasage, PointLivraison):
     "Génère une carte"
+    #Permet de génerer une carte
     Carte = folium.Map(location=[PointLivraison[0].Latitude, PointLivraison[0].Longitude], zoom_start=10)
     i=1
     for each_item in PointLivraison:
