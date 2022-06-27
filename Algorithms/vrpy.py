@@ -16,8 +16,12 @@ def vrpy_methode(Matrice, pointsLivraison, nb_vehicule):
     G = relabel_nodes(G, {0: "Source", len(G)-1: "Sink"})
 
     prob = VehicleRoutingProblem(G)
-    # prob.minimize_global_span = True
+    prob.minimize_global_span = True
     prob.num_vehicles = nb_vehicule
     prob.use_all_vehicles = True
     prob.solve()
-    return prob.best_routes, prob.best_routes_cost
+
+    routeDist = []
+    for i in range(len(prob.best_routes_cost)):
+        routeDist.append(prob.best_routes_cost[i+1])
+    return prob.best_routes, routeDist

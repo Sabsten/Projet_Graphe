@@ -40,11 +40,13 @@ def calcPathEfficiency(graph, paths, doPrint = True):
     
     return (worst, worstIndex, totLenVehicules)
 
-def tabu(graph, nbVehicules, nbIter):
+##############################################################################################################################
+
+def tabu_method(graph, nbVehicules, nbIter, startPoint = 0, concat = False):
     initGraph = graph
     startPoint = 0
     
-    # Init tabou list (will store a path between 2 points)
+    # Initialisation de la liste tabou (stocke un chemin entre deux points)
     tabuList = [[] for i in range(nbVehicules)]
     maxTabuListSize = 50
     
@@ -63,8 +65,6 @@ def tabu(graph, nbVehicules, nbIter):
         prematurateEnd = False
 
         while len(visited) < len(graph) and not prematurateEnd:
-            # print("-------")
-            # print("0", len(visited))
 
             # Loop for every vehicule
             for v in range(nbVehicules):
@@ -122,5 +122,15 @@ def tabu(graph, nbVehicules, nbIter):
                 "totLens": totLens,
                 "worst": worst
             }
+    
+    if(concat):
+        resultPath = list()
+        for i, o in enumerate(bestPathIteration["bestPaths"]):
+            for y in range(len(o)-1):
+                resultPath.append(o[y])
+        resultPath.append(startPoint)
+        
+        return resultPath
 
-    return (bestPathIteration["bestPaths"], bestPathIteration["bestDistances"], bestPathIteration["totLens"])
+    routes = {i+1:bestPathIteration["bestPaths"][i] for i in range(nbVehicules)}
+    return routes, bestPathIteration["totLens"]
