@@ -4,6 +4,21 @@ from ortools.constraint_solver import pywrapcp
 import random
 
 
+def get_dist(data, manager, routing, solution):
+    """Prints solution on console."""
+    print(f'Objective: {solution.ObjectiveValue()}')
+    route_dist = []
+    for vehicle_id in range(data['num_vehicles']):
+        index = routing.Start(vehicle_id)
+        route_distance = 0
+        while not routing.IsEnd(index):
+            previous_index = index
+            index = solution.Value(routing.NextVar(index))
+            route_distance += routing.GetArcCostForVehicle(
+                previous_index, index, vehicle_id)
+        route_dist.append(route_distance)
+    return route_dist
+
 def print_solution(data, manager, routing, solution):
     """Prints solution on console."""
     print(f'Objective: {solution.ObjectiveValue()}')
@@ -98,4 +113,4 @@ def ortools_method(matrice, nb_vehicule):
     else:
         print('No solution found !')
 
-    return routes
+    return routes, get_dist(data, manager, routing, solution)

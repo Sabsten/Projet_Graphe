@@ -20,13 +20,21 @@ def main():
     maxGen = 10000
     maxIteration = 1
 
-    ortools_route = ortools_method(matriceDistance, nb_vehicule)
+    ortools_route, ortools_dist = ortools_method(matriceDistance, nb_vehicule)
     tabu_route, tabu_dist = tabu_method(matriceDistance, nb_vehicule, maxIteration)
     genetic_route, genetic_dist = genetic_method(mutationRate, populationSize, maxGen, maxIteration, nb_vehicule, matriceDistance)
     ant_route, ant_dist = antColony_method(matriceDistance, nb_vehicule)
     vrpy_route, vrpy_cost = vrpy_methode(matriceDistance, pointsLivraison, nb_vehicule)
 
     print("\n")
+    print("### ORTOOLS ###")
+    ortools_globalDist = 0
+    for i in range(len(ortools_route)):
+        print(f"route : {ortools_route[i+1]} || cost = {ortools_dist[i]} km")
+        ortools_globalDist += ortools_dist[i]
+    print(f"Global distance : {ortools_globalDist} km")
+    print("\n")
+    
     print("### VRPY ###")
     vrpy_globalDist = 0
     for i in range(len(vrpy_route)):
