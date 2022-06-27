@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<head>    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_f9f57f577486b927678798a73700943a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+            </style>
+        
+</head>
+<body>    
+    
+            <div class="folium-map" id="map_f9f57f577486b927678798a73700943a" ></div>
+        
+</body>
+<script>    
+    
+            var map_f9f57f577486b927678798a73700943a = L.map(
+                "map_f9f57f577486b927678798a73700943a",
+                {
+                    center: [47.5469824081, 7.3170216886],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 10,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_829b7d8d66abcdef763ab849d92edd65 = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_f9f57f577486b927678798a73700943a);
+        
+    
+            var marker_49450ddd45e8e38cd9401beecb10e067 = L.marker(
+                [47.5469824081, 7.3170216886],
+                {}
+            ).addTo(map_f9f57f577486b927678798a73700943a);
+        
+    
+            var icon_d74ae5eeee29a55b3a6da212c636490c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_49450ddd45e8e38cd9401beecb10e067.setIcon(icon_d74ae5eeee29a55b3a6da212c636490c);
+        
+    
+        var popup_9aa1cc3d9d5a24d8b43107d4fd1e1d69 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_7f02da8c3bce27caf9443e5d2582356c = $(`<div id="html_7f02da8c3bce27caf9443e5d2582356c" style="width: 100.0%; height: 100.0%;">WALDIGHOFEN</div>`)[0];
+            popup_9aa1cc3d9d5a24d8b43107d4fd1e1d69.setContent(html_7f02da8c3bce27caf9443e5d2582356c);
+        
+
+        marker_49450ddd45e8e38cd9401beecb10e067.bindPopup(popup_9aa1cc3d9d5a24d8b43107d4fd1e1d69)
+        ;
+
+        
+    
+    
+            var marker_a89b734b8baf24299a76439b5474e419 = L.marker(
+                [47.5906419624, 7.11252849143],
+                {}
+            ).addTo(map_f9f57f577486b927678798a73700943a);
+        
+    
+            var icon_03b14a62d06fe69ae5bbaf4aaa02f6ff = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_a89b734b8baf24299a76439b5474e419.setIcon(icon_03b14a62d06fe69ae5bbaf4aaa02f6ff);
+        
+    
+        var popup_cfdfab1982f37ee2e77cd2627bce45b2 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_5a05a79c5d8668cdf64d9a70a34ed650 = $(`<div id="html_5a05a79c5d8668cdf64d9a70a34ed650" style="width: 100.0%; height: 100.0%;">ST ULRICH</div>`)[0];
+            popup_cfdfab1982f37ee2e77cd2627bce45b2.setContent(html_5a05a79c5d8668cdf64d9a70a34ed650);
+        
+
+        marker_a89b734b8baf24299a76439b5474e419.bindPopup(popup_cfdfab1982f37ee2e77cd2627bce45b2)
+        ;
+
+        
+    
+    
+            var marker_87ea1ebd33236cd4a19ddf57b65acd86 = L.marker(
+                [47.5308980609, 7.48185417828],
+                {}
+            ).addTo(map_f9f57f577486b927678798a73700943a);
+        
+    
+            var icon_724376e09926146931fba4070acf8edd = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_87ea1ebd33236cd4a19ddf57b65acd86.setIcon(icon_724376e09926146931fba4070acf8edd);
+        
+    
+        var popup_638eb74b853f89bbc23bd442f5c2ce2f = L.popup({"maxWidth": "100%"});
+
+        
+            var html_923f46cedc7d2cd0b394978d433ae3de = $(`<div id="html_923f46cedc7d2cd0b394978d433ae3de" style="width: 100.0%; height: 100.0%;">HAGENTHAL LE BAS</div>`)[0];
+            popup_638eb74b853f89bbc23bd442f5c2ce2f.setContent(html_923f46cedc7d2cd0b394978d433ae3de);
+        
+
+        marker_87ea1ebd33236cd4a19ddf57b65acd86.bindPopup(popup_638eb74b853f89bbc23bd442f5c2ce2f)
+        ;
+
+        
+    
+    
+            var marker_804680d962ef4a44a6d72ca7517723dc = L.marker(
+                [47.4919501348, 7.23379893851],
+                {}
+            ).addTo(map_f9f57f577486b927678798a73700943a);
+        
+    
+            var icon_743598d44ff1754e4173d44383311a1d = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_804680d962ef4a44a6d72ca7517723dc.setIcon(icon_743598d44ff1754e4173d44383311a1d);
+        
+    
+        var popup_5ec5a32ab1cc5a6f676503df5fc8714d = L.popup({"maxWidth": "100%"});
+
+        
+            var html_189797fbb50c7fc798b4386f5d38ca60 = $(`<div id="html_189797fbb50c7fc798b4386f5d38ca60" style="width: 100.0%; height: 100.0%;">DURLINSDORF</div>`)[0];
+            popup_5ec5a32ab1cc5a6f676503df5fc8714d.setContent(html_189797fbb50c7fc798b4386f5d38ca60);
+        
+
+        marker_804680d962ef4a44a6d72ca7517723dc.bindPopup(popup_5ec5a32ab1cc5a6f676503df5fc8714d)
+        ;
+
+        
+    
+    
+            var marker_2bf240eb9cfdd0518c4a8c2d2c114227 = L.marker(
+                [48.0108373364, 7.39448245044],
+                {}
+            ).addTo(map_f9f57f577486b927678798a73700943a);
+        
+    
+            var icon_5e76ec97ff6d89689f83b2882ac2e297 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_2bf240eb9cfdd0518c4a8c2d2c114227.setIcon(icon_5e76ec97ff6d89689f83b2882ac2e297);
+        
+    
+        var popup_30eca6245f7073dc71b58d8428150df0 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_f21c2dde723dfcbb4e0f027949804251 = $(`<div id="html_f21c2dde723dfcbb4e0f027949804251" style="width: 100.0%; height: 100.0%;">STE CROIX EN PLAINE</div>`)[0];
+            popup_30eca6245f7073dc71b58d8428150df0.setContent(html_f21c2dde723dfcbb4e0f027949804251);
+        
+
+        marker_2bf240eb9cfdd0518c4a8c2d2c114227.bindPopup(popup_30eca6245f7073dc71b58d8428150df0)
+        ;
+
+        
+    
+    
+            var marker_031e21cc92dad744b835d8d5769c9431 = L.marker(
+                [47.6793674876, 7.50063130465],
+                {}
+            ).addTo(map_f9f57f577486b927678798a73700943a);
+        
+    
+            var icon_7e125de43b475fbed115f3948613a3ee = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_031e21cc92dad744b835d8d5769c9431.setIcon(icon_7e125de43b475fbed115f3948613a3ee);
+        
+    
+        var popup_e8ee8f28993ee96861a1e4aa0a8c56f3 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_e634424fdd7ce157cc064514419110c8 = $(`<div id="html_e634424fdd7ce157cc064514419110c8" style="width: 100.0%; height: 100.0%;">KEMBS</div>`)[0];
+            popup_e8ee8f28993ee96861a1e4aa0a8c56f3.setContent(html_e634424fdd7ce157cc064514419110c8);
+        
+
+        marker_031e21cc92dad744b835d8d5769c9431.bindPopup(popup_e8ee8f28993ee96861a1e4aa0a8c56f3)
+        ;
+
+        
+    
+    
+            var marker_702b1bfab5769ad8aa78144f607c2a14 = L.marker(
+                [48.0293037675, 7.1719566301],
+                {}
+            ).addTo(map_f9f57f577486b927678798a73700943a);
+        
+    
+            var icon_3a7a1eb0fbd3e944afc7087021044fa6 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_702b1bfab5769ad8aa78144f607c2a14.setIcon(icon_3a7a1eb0fbd3e944afc7087021044fa6);
+        
+    
+        var popup_d0b3c0b4f0c2a1f06b35a58b40dfe5a1 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_635eed433f1898ce42c6c127f661902a = $(`<div id="html_635eed433f1898ce42c6c127f661902a" style="width: 100.0%; height: 100.0%;">GRIESBACH AU VAL</div>`)[0];
+            popup_d0b3c0b4f0c2a1f06b35a58b40dfe5a1.setContent(html_635eed433f1898ce42c6c127f661902a);
+        
+
+        marker_702b1bfab5769ad8aa78144f607c2a14.bindPopup(popup_d0b3c0b4f0c2a1f06b35a58b40dfe5a1)
+        ;
+
+        
+    
+    
+            var marker_6911ef1adedce1846617eb458bf84c8d = L.marker(
+                [47.586907289, 7.12919776559],
+                {}
+            ).addTo(map_f9f57f577486b927678798a73700943a);
+        
+    
+            var icon_7c8ae915ce32ea6ed71e72875cbe0860 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_6911ef1adedce1846617eb458bf84c8d.setIcon(icon_7c8ae915ce32ea6ed71e72875cbe0860);
+        
+    
+        var popup_08553ec86e99b726fefb700ae7df6683 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_6ba05feef235c78dfa0465786fd1cd5f = $(`<div id="html_6ba05feef235c78dfa0465786fd1cd5f" style="width: 100.0%; height: 100.0%;">MERTZEN</div>`)[0];
+            popup_08553ec86e99b726fefb700ae7df6683.setContent(html_6ba05feef235c78dfa0465786fd1cd5f);
+        
+
+        marker_6911ef1adedce1846617eb458bf84c8d.bindPopup(popup_08553ec86e99b726fefb700ae7df6683)
+        ;
+
+        
+    
+    
+            var poly_line_d0e49fe92987803b9eda14b6561d2b88 = L.polyline(
+                [[47.5469824081, 7.3170216886], [48.0108373364, 7.39448245044], [48.0293037675, 7.1719566301], [47.5469824081, 7.3170216886]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_f9f57f577486b927678798a73700943a);
+        
+    
+            var poly_line_4879b8bc218accd71645264d7b2ec1a3 = L.polyline(
+                [[47.5469824081, 7.3170216886], [47.4919501348, 7.23379893851], [47.5906419624, 7.11252849143], [47.586907289, 7.12919776559], [47.6793674876, 7.50063130465], [47.5308980609, 7.48185417828], [47.5469824081, 7.3170216886]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_f9f57f577486b927678798a73700943a);
+        
+</script>

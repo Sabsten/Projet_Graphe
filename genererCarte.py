@@ -23,5 +23,5 @@ def genererCarte(ordrepasage, PointLivraison, algo):
 
 
     filename = 'Map' + algo +'.html'
-    Carte.save(os.path.abspath(os.path.dirname(__file__))+ "\\" + filename)
+    Carte.save(os.path.abspath(os.path.dirname(__file__))+ "\\Maps\\" + filename)
     webbrowser.open('file://' + os.path.realpath(filename))
