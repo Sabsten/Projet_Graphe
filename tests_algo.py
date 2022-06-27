@@ -8,6 +8,16 @@ from genererCarte import genererCarte
 
 from random import *
 
+def printer(algo, route, dist):
+    print(f"### {algo} ###")
+    globalDist = 0
+    for i in range(len(route)):
+        print(f"route : {route[i+1]} || distance = {dist[i]} km")
+        globalDist += dist[i]
+    print(f"Total distance = {globalDist} km")
+    print("\n")
+    
+
 def main():
     DepartementTravail = randint(1,93)
     nombre_livraison = int(input("Nombre de livraison : "))
@@ -20,58 +30,32 @@ def main():
     maxGen = 10000
     maxIteration = 1
 
-    ortools_route, ortools_dist = ortools_method(matriceDistance, nb_vehicule)
+    time_limit = 3
+
+    ortools_tabu_route, ortools_tabu_dist = ortools_method(matriceDistance, nb_vehicule, "tabu", time_limit)
+    printer("or_tools_tabu", ortools_tabu_route, ortools_tabu_dist)
+
+    ortools_sa_route, ortools_sa_dist = ortools_method(matriceDistance, nb_vehicule, "simulated_annealing", time_limit)
+    printer("or_tools_sa", ortools_sa_route, ortools_sa_dist)
+
     tabu_route, tabu_dist = tabu_method(matriceDistance, nb_vehicule, maxIteration)
+    printer("tabu", tabu_route, tabu_dist)
+
     genetic_route, genetic_dist = genetic_method(mutationRate, populationSize, maxGen, maxIteration, nb_vehicule, matriceDistance)
+    printer("genetic", genetic_route, genetic_dist)
+
     ant_route, ant_dist = antColony_method(matriceDistance, nb_vehicule)
-    vrpy_route, vrpy_cost = vrpy_methode(matriceDistance, pointsLivraison, nb_vehicule)
-
-    print("\n")
-    print("### ORTOOLS ###")
-    ortools_globalDist = 0
-    for i in range(len(ortools_route)):
-        print(f"route : {ortools_route[i+1]} || cost = {ortools_dist[i]} km")
-        ortools_globalDist += ortools_dist[i]
-    print(f"Global distance : {ortools_globalDist} km")
-    print("\n")
+    printer("antColony", ant_route, ant_dist)
     
-    print("### VRPY ###")
-    vrpy_globalDist = 0
-    for i in range(len(vrpy_route)):
-        print(f"route : {vrpy_route[i+1]} || cost = {vrpy_cost[i+1]} km")
-        vrpy_globalDist += vrpy_cost[i+1]
-    print(f"Global distance : {vrpy_globalDist} km")
-    print("\n")
+    vrpy_route, vrpy_cost = vrpy_methode(matriceDistance, pointsLivraison, nb_vehicule)
+    printer("vrpy", vrpy_route, vrpy_cost)
 
-    print(f"### TABU ###")
-    tabu_globalDist = 0
-    for i in range(len(tabu_route)):
-        print(f"route : {tabu_route[i+1]} || cost = {tabu_dist[i]} km")
-        tabu_globalDist += tabu_dist[i]
-    print(f"Total distance = {tabu_globalDist} km")
-    print("\n")
-
-    print(f"### GENETIC ###")
-    genetic_globalDist = 0
-    for i in range(len(genetic_route)):
-        print(f"route : {genetic_route[i+1]} || cost = {genetic_dist[i]} km")
-        genetic_globalDist += genetic_dist[i]
-    print(f"Total distance = {genetic_globalDist} km")
-    print("\n")
-
-    print(f"### ANT COLONY ###")
-    ant_globalDist = 0
-    for i in range(len(ant_route)):
-        print(f"route : {ant_route[i+1]} || cost = {ant_dist[i]} km")
-        ant_globalDist += ant_dist[i]
-    print(f"Total distance = {ant_globalDist} km")
-
-
-    # genererCarte(ortools_route, pointsLivraison, "ortools")
-    # genererCarte(vrpy_route, pointsLivraison, "vrpy")
-    # genererCarte(tabu_route, pointsLivraison, "tabu")
-    # genererCarte(genetic_route, pointsLivraison, "genetic")
-    # genererCarte(ant_route, pointsLivraison, "antColony")
+    genererCarte(ortools_tabu_route, pointsLivraison, "ortools_tabu")
+    genererCarte(ortools_sa_route, pointsLivraison, "ortools_sa")
+    genererCarte(vrpy_route, pointsLivraison, "vrpy")
+    genererCarte(tabu_route, pointsLivraison, "tabu")
+    genererCarte(genetic_route, pointsLivraison, "genetic")
+    genererCarte(ant_route, pointsLivraison, "antColony")
 
 if __name__ == "__main__":
     main()

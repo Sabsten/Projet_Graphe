@@ -20,4 +20,8 @@ def vrpy_methode(Matrice, pointsLivraison, nb_vehicule):
     prob.num_vehicles = nb_vehicule
     prob.use_all_vehicles = True
     prob.solve()
-    return prob.best_routes, prob.best_routes_cost
+
+    routeDist = []
+    for i in range(len(prob.best_routes_cost)):
+        routeDist.append(prob.best_routes_cost[i+1])
+    return prob.best_routes, routeDist

@@ -4,9 +4,8 @@ from ortools.constraint_solver import pywrapcp
 import random
 
 
-def get_dist(data, manager, routing, solution):
+def get_dist(data, routing, solution):
     """Prints solution on console."""
-    print(f'Objective: {solution.ObjectiveValue()}')
     route_dist = []
     for vehicle_id in range(data['num_vehicles']):
         index = routing.Start(vehicle_id)
@@ -18,26 +17,6 @@ def get_dist(data, manager, routing, solution):
                 previous_index, index, vehicle_id)
         route_dist.append(route_distance)
     return route_dist
-
-def print_solution(data, manager, routing, solution):
-    """Prints solution on console."""
-    print(f'Objective: {solution.ObjectiveValue()}')
-    max_route_distance = 0
-    for vehicle_id in range(data['num_vehicles']):
-        index = routing.Start(vehicle_id)
-        plan_output = 'Route for vehicle {}:\n'.format(vehicle_id)
-        route_distance = 0
-        while not routing.IsEnd(index):
-            plan_output += ' {} -> '.format(manager.IndexToNode(index))
-            previous_index = index
-            index = solution.Value(routing.NextVar(index))
-            route_distance += routing.GetArcCostForVehicle(
-                previous_index, index, vehicle_id)
-        plan_output += '{}\n'.format(manager.IndexToNode(index))
-        plan_output += 'Distance of the route: {}km\n'.format(route_distance)
-        print(plan_output)
-        max_route_distance = max(route_distance, max_route_distance)
-    print('Maximum of the route distances: {}km'.format(max_route_distance))
 
 def get_routes(solution, routing, manager):
   """Get vehicle routes from a solution and store them in an array."""
@@ -53,7 +32,7 @@ def get_routes(solution, routing, manager):
     routes[route_nbr + 1] = route
   return routes
 
-def ortools_method(matrice, nb_vehicule):
+def ortools_method(matrice, nb_vehicule, algo, time_limit):
     """Entry point of the program."""
     # Instantiate the data problem.
     data = {}
@@ -91,26 +70,28 @@ def ortools_method(matrice, nb_vehicule):
     distance_dimension = routing.GetDimensionOrDie(dimension_name)
     distance_dimension.SetGlobalSpanCostCoefficient(100)
 
-    # Setting first solution heuristic.
-    # search_parameters = pywrapcp.DefaultRoutingSearchParameters()
-    # search_parameters.first_solution_strategy = (
-    #     routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
     
-    # Solve the problem with TABU Algorithm.
-    search_parameters = pywrapcp.DefaultRoutingSearchParameters()
-    search_parameters.local_search_metaheuristic = (
-        routing_enums_pb2.LocalSearchMetaheuristic.TABU_SEARCH)
-    search_parameters.time_limit.seconds = 3
+    if algo == "tabu":
+        # Solve the problem with TABU Algorithm.
+        search_parameters = pywrapcp.DefaultRoutingSearchParameters()
+        search_parameters.local_search_metaheuristic = (
+            routing_enums_pb2.LocalSearchMetaheuristic.TABU_SEARCH)
+        search_parameters.time_limit.seconds = time_limit
+    elif algo == "simulated_annealing" :
+        # Solve the problem with Simulated Annealing Algorithm.
+        search_parameters = pywrapcp.DefaultRoutingSearchParameters()
+        search_parameters.local_search_metaheuristic = (
+            routing_enums_pb2.LocalSearchMetaheuristic.SIMULATED_ANNEALING)
+        search_parameters.time_limit.seconds = time_limit
+    else :
+        # Setting first solution heuristic.
+        search_parameters = pywrapcp.DefaultRoutingSearchParameters()
+        search_parameters.first_solution_strategy = (
+            routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
 
     # Solve the problem.
     solution = routing.SolveWithParameters(search_parameters)
 
     routes = get_routes(solution, routing, manager)
 
-    # Print solution on console.
-    if solution:
-        print_solution(data, manager, routing, solution)
-    else:
-        print('No solution found !')
-
-    return routes, get_dist(data, manager, routing, solution)
+    return routes, get_dist(data, routing, solution)
