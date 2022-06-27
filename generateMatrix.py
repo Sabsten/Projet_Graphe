@@ -64,7 +64,7 @@ def generateMatrix(num_dept, nb_livraison):
         MatriceDistances.append([])
         MatriceLocalisation.append([])
         for j in range(len(PointLivraison)):
-            MatriceDistances[i].append(CalculDistanceHaversine(PointLivraison[i], PointLivraison[j]))
+            MatriceDistances[i].append(int(CalculDistanceHaversine(PointLivraison[i], PointLivraison[j])))
             MatriceLocalisation[i].append(f"{PointLivraison[i].Ville}->{PointLivraison[j].Ville}")
     # MatriceDistances.append([0 for _ in range(len(PointLivraison)+1)])
     return MatriceDistances, PointLivraison

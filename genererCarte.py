@@ -2,7 +2,7 @@ import folium
 import webbrowser
 import os
 
-def genererCarte(ordrepasage, PointLivraison):
+def genererCarte(ordrepasage, PointLivraison, algo):
     "Génère une carte"
     #Permet de génerer une carte
     Carte = folium.Map(location=[PointLivraison[0].Latitude, PointLivraison[0].Longitude], zoom_start=10)
@@ -17,11 +17,11 @@ def genererCarte(ordrepasage, PointLivraison):
             if type(ordrepasage[each_item][indice]) == str:
                 ordrepasage[each_item][indice] = 0
 
-    ListColor = ['red', 'blue', 'green', 'grey', 'orange', 'purple', 'pink', 'brown', 'black', 'grey']
+    ListColor = ['red', 'blue', 'green', 'grey', 'orange', 'purple', 'pink', 'brown', 'black']
     for indice in ordrepasage:
         folium.PolyLine([(float(PointLivraison[each_item].Latitude), float(PointLivraison[each_item].Longitude)) for each_item in ordrepasage[indice]], color=ListColor[indice], weight=2).add_to(Carte)
 
-    
 
-    Carte.save(os.path.abspath(os.path.dirname(__file__))+ '\Map.html')
-    webbrowser.open('file://' + os.path.realpath('Map.html'))
+    filename = 'Map' + algo +'.html'
+    Carte.save(os.path.abspath(os.path.dirname(__file__))+ "\\" + filename)
+    webbrowser.open('file://' + os.path.realpath(filename))
