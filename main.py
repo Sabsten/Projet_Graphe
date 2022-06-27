@@ -103,7 +103,7 @@ def genererCarte(ordrepasage, PointLivraison):
 
 def main():
     DepartementTravail = randint(1,93)
-    nombre_livraison = 8
+    nombre_livraison = 25
     print(f"Departement de travail : {str(DepartementTravail)}")
     PointsTravail = readfile(DepartementTravail)
     MateriauxSpecial = randint(1, len(PointsTravail)-1)
