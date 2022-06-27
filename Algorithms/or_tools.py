@@ -1,6 +1,7 @@
 
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
+import random
 
 
 def print_solution(data, manager, routing, solution):
@@ -76,9 +77,15 @@ def ortools_method(matrice, nb_vehicule):
     distance_dimension.SetGlobalSpanCostCoefficient(100)
 
     # Setting first solution heuristic.
+    # search_parameters = pywrapcp.DefaultRoutingSearchParameters()
+    # search_parameters.first_solution_strategy = (
+    #     routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
+    
+    # Solve the problem with TABU Algorithm.
     search_parameters = pywrapcp.DefaultRoutingSearchParameters()
-    search_parameters.first_solution_strategy = (
-        routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
+    search_parameters.local_search_metaheuristic = (
+        routing_enums_pb2.LocalSearchMetaheuristic.TABU_SEARCH)
+    search_parameters.time_limit.seconds = 3
 
     # Solve the problem.
     solution = routing.SolveWithParameters(search_parameters)
