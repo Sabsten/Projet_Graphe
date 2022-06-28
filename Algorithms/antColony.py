@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 # Algorithme de colonies de fourmis
 def antColony_method(dataPondArray, nombreCamions):
 
-    ## Definition of variables
+    ## Definition des variables
     
     dataArray= list(dataPondArray)
     dataArray = np.array(dataArray)
@@ -163,10 +163,6 @@ def antColony_method(dataPondArray, nombreCamions):
             for OBJPassed in range(len(actOBJList)):
                 nbCityOBJCop.remove(actOBJList[OBJPassed])
 
-                
-    # plt.plot(bestPondList)
-    # plt.plot(moyBestPondList)
-    # plt.show()
     route = {i+1:wrRoutLastList[i] for i in range(len(wrRoutLastList))}
 
     return route, wrPondLastList

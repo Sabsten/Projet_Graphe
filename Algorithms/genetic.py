@@ -123,17 +123,14 @@ class Population:
         self.bestGlobalFitness = self.populations[0].globalFitness
         
     def getPopADNs(self):
+
         ADNs = list()
         for o in self.populations:
             ADNs.append(o.ADN)
         return ADNs
     
     def isDuplicate(self, i):
-        # print("---------------- DUPLICATE FINDER --------------------")
-        # print("ELement to test:", self.populations[i].ADN)
-        # print("ADN list:")
-        # print(self.getPopADNs())
-        
+
         ADNlist = self.getPopADNs()
         ADNlist.pop(i)
         if self.populations[i].ADN in ADNlist:
@@ -152,22 +149,16 @@ class Population:
         if self.nbNode == 2:
             self.bestPath = [0,1,0]
             self.bestFitness = (self.graph[0][2] * 2)
-            #self.bestFitnessList = self.populations[0].fitnessList
-            #self.bestvehiclePath = self.populations[0].vehicleADNlist
-            #self.bestGlobalFitness = self.populations[0].globalFitness
             return
 
-        #print(self.nbNode)
         checkSmallSize = (self.nbNode**2 - self.nbNode) / 2
-        #print(checkSmallSize)
+
         if checkSmallSize <= self.populationSize:
             self.populationSize = round(checkSmallSize) - 1
             self.populations = self.populations[0:self.populationSize]
             maxGen = self.populationSize + 10
-            #print(self.populations)
         
         for nbGen in range(maxGen):
-            #print("Starting generation", nbGen)
             for i in range(round(self.populationSize/2)-1):
                 self.populations[i+round(self.populationSize/2)] = copy.deepcopy(self.populations[i])
             for i in range(round(self.populationSize/2), self.populationSize):
@@ -183,11 +174,10 @@ class Population:
             self.bestvehiclePath = self.populations[0].vehicleADNlist
             self.bestGlobalFitness = self.populations[0].globalFitness
 
-# END CLASS "Population"
+# Fin de la classe "Population"
 
-# Alfo génétique pour solution problème voyageur de commerce complet :
+# Algo génétique pour solution problème voyageur de commerce complet :
 def genetic_method(mut, size, mxGen, mxIte, nbVeh, grph):
-    #print("--- STARTING PROGRAM ---")
     pos = 0
     bestPath = list()
     bestFitnessList = list()

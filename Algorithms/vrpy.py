@@ -3,16 +3,16 @@ from vrpy import VehicleRoutingProblem
 from numpy import array
 
 def vrpy_methode(Matrice, pointsLivraison, nb_vehicule):
-    # Modify the distance matrix to make it compatible with the VRPY algorithm.
+    # Modifier la matrice pour quelle soit compatible avec VRPY
     for i in range(len(pointsLivraison)):
         Matrice[i].insert(0, 0)
     Matrice.append([0 for _ in range(len(pointsLivraison)+1)])
 
-    # Create the graph.
+    # Creation du graphe
     A = array(Matrice, dtype=[("cost", float)])
     G = from_numpy_matrix(A, create_using=DiGraph())
 
-    # The depot is relabeled as Source and Sink
+    # Le point de départ et d'arrivée est renommé Source et Sink
     G = relabel_nodes(G, {0: "Source", len(G)-1: "Sink"})
 
     prob = VehicleRoutingProblem(G)

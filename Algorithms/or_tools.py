@@ -5,7 +5,7 @@ import random
 
 
 def get_dist(data, routing, solution):
-    """Prints solution on console."""
+    """Renvoie la distance totale de la solution"""
     route_dist = []
     for vehicle_id in range(data['num_vehicles']):
         index = routing.Start(vehicle_id)
@@ -19,9 +19,7 @@ def get_dist(data, routing, solution):
     return route_dist
 
 def get_routes(solution, routing, manager):
-  """Get vehicle routes from a solution and store them in an array."""
-  # Get vehicle routes and store them in a two dimensional array whose
-  # i,j entry is the jth location visited by vehicle i along its route.
+  """Renvoie la liste des routes de la solution"""
   routes = {}
   for route_nbr in range(routing.vehicles()):
     index = routing.Start(route_nbr)
@@ -33,33 +31,32 @@ def get_routes(solution, routing, manager):
   return routes
 
 def ortools_method(matrice, nb_vehicule, algo, time_limit):
-    """Entry point of the program."""
-    # Instantiate the data problem.
+    """Methode main de l'algorithme"""
+    # Instancier le problème
     data = {}
     data['distance_matrix'] = matrice
     data['num_vehicles'] = nb_vehicule
     data['depot'] = 0
-    # Create the routing index manager.
+    # Création du routing index manager
     manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']),
                                            data['num_vehicles'], data['depot'])
-    # Create Routing Model.
+    # Creation du routing model
     routing = pywrapcp.RoutingModel(manager)
 
 
-    # Create and register a transit callback.
+    # Creation du callback (distance entre 2 noeuds)
     def distance_callback(from_index, to_index):
-        """Returns the distance between the two nodes."""
-        # Convert from routing variable Index to distance matrix NodeIndex.
+        """Renvoie la distance entre 2 noeuds"""
         from_node = manager.IndexToNode(from_index)
         to_node = manager.IndexToNode(to_index)
         return data['distance_matrix'][from_node][to_node]
 
     transit_callback_index = routing.RegisterTransitCallback(distance_callback)
 
-    # Define cost of each arc.
+    # Defini le cout de chaque arc
     routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index)
 
-    # Add Distance constraint.
+    # Ajout d'une contrainte de distances
     dimension_name = 'Distance'
     routing.AddDimension(
         transit_callback_index,
@@ -72,24 +69,23 @@ def ortools_method(matrice, nb_vehicule, algo, time_limit):
 
     
     if algo == "tabu":
-        # Solve the problem with TABU Algorithm.
+        # Resoudre le probleme avec l'algorithme tabu
         search_parameters = pywrapcp.DefaultRoutingSearchParameters()
         search_parameters.local_search_metaheuristic = (
             routing_enums_pb2.LocalSearchMetaheuristic.TABU_SEARCH)
         search_parameters.time_limit.seconds = time_limit
     elif algo == "simulated_annealing" :
-        # Solve the problem with Simulated Annealing Algorithm.
+        # Resoudre le probleme avec l'algorithme du recuit simulé
         search_parameters = pywrapcp.DefaultRoutingSearchParameters()
         search_parameters.local_search_metaheuristic = (
             routing_enums_pb2.LocalSearchMetaheuristic.SIMULATED_ANNEALING)
         search_parameters.time_limit.seconds = time_limit
     else :
-        # Setting first solution heuristic.
+        # Resoudre le probleme avec l'algorithme de l'ordonnancement
         search_parameters = pywrapcp.DefaultRoutingSearchParameters()
         search_parameters.first_solution_strategy = (
             routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
 
-    # Solve the problem.
     solution = routing.SolveWithParameters(search_parameters)
 
     routes = get_routes(solution, routing, manager)
