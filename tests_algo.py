@@ -50,15 +50,15 @@ def main():
     ant_route, ant_dist = antColony_method(matriceDistance, nb_vehicule)
     printer("antColony", ant_route, ant_dist)
     
-    vrpy_route, vrpy_cost = vrpy_methode(matriceDistance, pointsLivraison, nb_vehicule)
-    printer("vrpy", vrpy_route, vrpy_cost)
+    # vrpy_route, vrpy_cost = vrpy_methode(matriceDistance, pointsLivraison, nb_vehicule)
+    # printer("vrpy", vrpy_route, vrpy_cost)
 
-    generateMaps(ortools_tabu_route, pointsLivraison, "ortools_tabu")
-    generateMaps(ortools_sa_route, pointsLivraison, "ortools_sa")
-    generateMaps(vrpy_route, pointsLivraison, "vrpy")
-    generateMaps(tabu_route, pointsLivraison, "tabu")
-    generateMaps(genetic_route, pointsLivraison, "genetic")
-    generateMaps(ant_route, pointsLivraison, "antColony")
+    # generateMaps(ortools_tabu_route, pointsLivraison, "ortools_tabu")
+    # generateMaps(ortools_sa_route, pointsLivraison, "ortools_sa")
+    # generateMaps(vrpy_route, pointsLivraison, "vrpy")
+    # generateMaps(tabu_route, pointsLivraison, "tabu")
+    # generateMaps(genetic_route, pointsLivraison, "genetic")
+    # generateMaps(ant_route, pointsLivraison, "antColony")
 
 if __name__ == "__main__":
     main()
