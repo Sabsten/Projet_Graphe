@@ -1,4 +1,0 @@
-1- On tire nb_livraison
-2- On tire un département de travail
-3- On récup les coordonées et infos, et on retourne une liste d'objets
-4- On récupère nb_livraison parmis tous les objets
