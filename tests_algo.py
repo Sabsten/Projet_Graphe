@@ -4,11 +4,12 @@ from Algorithms.tabu import tabu_method
 from Algorithms.genetic import genetic_method
 from Algorithms.antColony import antColony_method
 from generateMatrix import generateMatrix
-from genererCarte import genererCarte
+from generateMaps import generateMaps
 
 from random import *
 
 def printer(algo, route, dist):
+    """ Affiche les résultats d'un algorithme """
     print(f"### {algo} ###")
     globalDist = 0
     for i in range(len(route)):
@@ -19,17 +20,19 @@ def printer(algo, route, dist):
     
 
 def main():
+
+    # Demande du nombre de livraison et du nombre de véhicules
     DepartementTravail = randint(1,93)
-    nombre_livraison = int(input("Nombre de livraison : "))
+    nombre_livraison = int(input("Nombre de livraisons : "))
     matriceDistance, pointsLivraison = generateMatrix(DepartementTravail, nombre_livraison)
-    nb_vehicule = int(input("Nombre de vehicule : "))
+    nb_vehicule = int(input("Nombre de vehicules : "))
     print("\n")
 
+    # Paramétrage des algorithmes
     mutationRate = 1
     populationSize = 40
     maxGen = 10000
     maxIteration = 1
-
     time_limit = 3
 
     ortools_tabu_route, ortools_tabu_dist = ortools_method(matriceDistance, nb_vehicule, "tabu", time_limit)
@@ -47,15 +50,15 @@ def main():
     ant_route, ant_dist = antColony_method(matriceDistance, nb_vehicule)
     printer("antColony", ant_route, ant_dist)
     
-    vrpy_route, vrpy_cost = vrpy_methode(matriceDistance, pointsLivraison, nb_vehicule)
-    printer("vrpy", vrpy_route, vrpy_cost)
+    # vrpy_route, vrpy_cost = vrpy_methode(matriceDistance, pointsLivraison, nb_vehicule)
+    # printer("vrpy", vrpy_route, vrpy_cost)
 
-    genererCarte(ortools_tabu_route, pointsLivraison, "ortools_tabu")
-    genererCarte(ortools_sa_route, pointsLivraison, "ortools_sa")
-    genererCarte(vrpy_route, pointsLivraison, "vrpy")
-    genererCarte(tabu_route, pointsLivraison, "tabu")
-    genererCarte(genetic_route, pointsLivraison, "genetic")
-    genererCarte(ant_route, pointsLivraison, "antColony")
+    # generateMaps(ortools_tabu_route, pointsLivraison, "ortools_tabu")
+    # generateMaps(ortools_sa_route, pointsLivraison, "ortools_sa")
+    # generateMaps(vrpy_route, pointsLivraison, "vrpy")
+    # generateMaps(tabu_route, pointsLivraison, "tabu")
+    # generateMaps(genetic_route, pointsLivraison, "genetic")
+    # generateMaps(ant_route, pointsLivraison, "antColony")
 
 if __name__ == "__main__":
     main()

@@ -5,7 +5,7 @@ def calcPathEfficiency(graph, paths, doPrint = True):
     totLen = 0
     totLenVehicules = [0 for i in range(nbVehicules)]
     
-    # Check data validity
+    # Verifie le chemin pour chaque vehicule
     prefix = "[INVALID PATH]"
     for v in range(nbVehicules):
         if(paths[v][0] != paths[v][len(paths[v])-1]):
@@ -18,7 +18,7 @@ def calcPathEfficiency(graph, paths, doPrint = True):
         print(prefix, "Invalid path length! (Some points are taken multiple times?)")
         print("> Got", len(concatPaths), "expected", size + (len(paths)*2)-1)
     
-    # Calculate path length
+    # Calcul de la distance du chemin
     for v in range(nbVehicules):
         for i in range(len(paths[v])):
             if(i+1 >= len(paths[v])):
@@ -40,9 +40,8 @@ def calcPathEfficiency(graph, paths, doPrint = True):
     
     return (worst, worstIndex, totLenVehicules)
 
-##############################################################################################################################
-
 def tabu_method(graph, nbVehicules, nbIter, startPoint = 0, concat = False):
+    """ Methode main de l'algorithme tabu """
     initGraph = graph
     startPoint = 0
     
@@ -66,19 +65,19 @@ def tabu_method(graph, nbVehicules, nbIter, startPoint = 0, concat = False):
 
         while len(visited) < len(graph) and not prematurateEnd:
 
-            # Loop for every vehicule
+            # Boucle sur les vehicules
             for v in range(nbVehicules):
 
                 if(len(visited) >= len(graph)):
                     break
 
-                # Worst case
+                # Pire cas
                 bestDistance = 99999999999
                 bestNeighbour = startPoint
 
-                # Search nearest neighbour
+                # Trouver le voisin le plus proche
                 for j in range(totPoints):
-                    # Check if the path is not used (including other vehicules) + Check if path exists in tabu
+                    # Si le point n'a pas encore été visité
                     if(currentElements[v] != j and j not in visited and (currentElements[v], j) not in tabuList[v]):
                         neighbour = graph[currentElements[v]][j]
                         if(neighbour <= bestDistance):
@@ -88,12 +87,11 @@ def tabu_method(graph, nbVehicules, nbIter, startPoint = 0, concat = False):
                             if(len(tabuList[v]) > maxTabuListSize):
                                 tabuList[v].pop(0)
 
-                # Could not find a solution => All combinaisons in tabou have been tried
+                # Impossible de trouver une solution
                 if(bestNeighbour == startPoint):
-                    # print("NO SOLUTION", (currentElements[v], j, visited, tabuList))
-                    # Search nearest neighbour
+                    # Recherche meilleur voisin
                     for j in range(totPoints):
-                        # Check if the path is not used (including other vehicules) + Check if path exists in tabu
+                        # Si le point n'a pas encore été visité
                         if(currentElements[v] != j and j not in visited):
                             neighbour = graph[currentElements[v]][j]
                             if(neighbour <= bestDistance):
@@ -107,15 +105,13 @@ def tabu_method(graph, nbVehicules, nbIter, startPoint = 0, concat = False):
                 bestDistances[v].append(bestDistance)
 
         for v in range(nbVehicules):
-            # Return to start point
             bestPaths[v].append(startPoint)
             totLens[v] += graph[currentElements[v]][startPoint]
             bestDistances[v].append(graph[currentElements[v]][startPoint])
             
         worst, worstIndex, tot = calcPathEfficiency(initGraph, bestPaths, False)
-        #print("ITER ", it, worst)
+
         if bestPathIteration.get("worst") is None or worst < bestPathIteration["worst"]:
-            #print("New best for it", it, worst)
             bestPathIteration = {
                 "bestPaths": bestPaths,
                 "bestDistances": bestDistances,

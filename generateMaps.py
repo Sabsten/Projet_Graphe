@@ -2,7 +2,7 @@ import folium
 import webbrowser
 import os
 
-def genererCarte(ordrepasage, PointLivraison, algo):
+def generateMaps(ordrepasage, PointLivraison, algo):
     "Génère une carte"
     #Permet de génerer une carte
     Carte = folium.Map(location=[PointLivraison[0].Latitude, PointLivraison[0].Longitude], zoom_start=10)
